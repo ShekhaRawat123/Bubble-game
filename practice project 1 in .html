@@ -1,0 +1,72 @@
+<!-- // make a rectangle  and when we move mouse on that rectangle on the left side we want to gradually change the color of 
+// that  rectangle to red and when we move mouse  to the right side  we  want  to change the color to blue -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+
+    <style>
+
+* {
+    margin: 0;
+padding:0;
+box-sizing: border-box ;
+font-family: "gilroy"
+}
+html, body{
+    height: 100%;
+    width: 100%;
+}
+#center {
+    position: absolute;
+    top: 40%;
+    left: 40%;
+width: 400px;
+height: 200px;
+border: 1px solid  black;
+transform   :  translate(-50%, 50%);
+
+}
+
+
+
+    </style>
+</head>
+<body>
+<div id="center"></div>
+
+
+    
+</body>
+<script>
+var rect = document.querySelector("#center");
+
+rect.addEventListener("mousemove", function(details)  {
+
+var rectanglelocation = rect.getBoundingClientRect();
+console.log(rectanglelocation)
+   var insiderectval= (details.clientX - rectanglelocation.left);
+
+if(insiderectval<rectanglelocation.width/2){
+    var redcolor = gsap.utils.mapRange(0,rectanglelocation.width/2 , 255, 0, insiderectval);
+    gsap.to(rect, {backgroundColor:`rgb(${redcolor}, 0, 0)`,  ease: "power4",});
+}
+else {
+                // Change color to blue on the right side
+                var blueColor = gsap.utils.mapRange(rectanglelocation.width/2, rectanglelocation.width, 0, 255, insiderectval);
+                gsap.to(rect, { backgroundColor: `rgb(0, 0, ${blueColor})`, ease: "power4" });
+            }
+    
+
+});
+
+
+
+</script>
+</html>
+<!-- gsap.utils.mapRange(0, 250, 255, 0, 2) -->
